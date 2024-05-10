@@ -1,0 +1,95 @@
+<div>
+  <form class="container">
+    <h3 class="title">Cadastro de Clientes</h3>
+    <hr>
+    <div class="row">
+      <div class="col-2">
+        <mat-form-field>
+          <input matInput disabled placeholder="Código" value="" />
+        </mat-form-field>
+      </div>
+      <div class="col-2">
+        <mat-form-field>
+          <input
+            matInput
+            #codeExtern
+            placeholder="Código Externo"
+            value=""
+            [maxLength]="20"
+          />
+          <mat-hint align="end">{{ codeExtern.value.length }}/20</mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="col-4">
+        <mat-form-field style="width: 100%;">
+          <input matInput placeholder="Nome Completo*" />
+        </mat-form-field>
+      </div>
+
+      <div class="col-4">
+        <mat-form-field style="width: 100%;">
+          <input matInput placeholder="Email" />
+        </mat-form-field>
+      </div>
+    </div>
+
+
+      <div class="row">
+        <div class="col-sm">
+          <mat-form-field class="col">
+            <mat-label>Sexo</mat-label>
+            <mat-select [(ngModel)]="selectedValue" name="food">
+              @for (food of foods; track food) {
+              <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm">
+          <mat-form-field class="col">
+            <mat-label>Estado Civil</mat-label>
+            <mat-select [(ngModel)]="selectedValue" name="food">
+              @for (food of foods; track food) {
+              <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm">
+          <mat-form-field class="col">
+            <input matInput placeholder="Documento de identificação" />
+          </mat-form-field>
+        </div>
+
+        <div class="col-sm">
+          <mat-form-field class="col">
+            <input matInput placeholder="Telefone" />
+          </mat-form-field>
+        </div>
+      </div>
+
+    <div class="row">
+     <div class="col-sm">
+        <mat-form-field>
+          <input matInput placeholder="Data de Nascimento" />
+        </mat-form-field>
+      </div>
+     <div class="col-sm">
+        <mat-form-field>
+          <input matInput maxlength="11" placeholder="CPF*" />
+        </mat-form-field>
+      </div>
+     <div class="col-sm">
+        <mat-checkbox class="example-margin"
+          >Assina digital/eletronicamente</mat-checkbox
+        >
+      </div>
+    </div>
+    <div class="div-btn-add">
+      <button mat-flat-button color="primary" class="btn-add">Adicionar</button>
+    </div>
+  </form>
+</div>
