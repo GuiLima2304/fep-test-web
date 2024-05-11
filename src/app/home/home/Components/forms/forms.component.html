@@ -1,7 +1,7 @@
 <div>
   <form class="container">
     <h3 class="title">Cadastro de Clientes</h3>
-    <hr>
+    <hr />
     <div class="row">
       <div class="col-2">
         <mat-form-field>
@@ -14,82 +14,129 @@
             matInput
             #codeExtern
             placeholder="Código Externo"
-            value=""
+            name="externCode"
             [maxLength]="20"
+            [(ngModel)]="forms.externCode"
           />
           <mat-hint align="end">{{ codeExtern.value.length }}/20</mat-hint>
         </mat-form-field>
       </div>
 
       <div class="col-4">
-        <mat-form-field style="width: 100%;">
-          <input matInput placeholder="Nome Completo*" />
+        <mat-form-field style="width: 100%">
+          <input
+            matInput
+            placeholder="Nome Completo*"
+            name="name"
+            [(ngModel)]="forms.name"
+          />
         </mat-form-field>
       </div>
 
       <div class="col-4">
-        <mat-form-field style="width: 100%;">
-          <input matInput placeholder="Email" />
+        <mat-form-field style="width: 100%">
+          <input matInput placeholder="Email" name="email" [(ngModel)]="forms.email" />
         </mat-form-field>
       </div>
     </div>
 
-
-      <div class="row">
-        <div class="col-sm">
-          <mat-form-field class="col">
-            <mat-label>Sexo</mat-label>
-            <mat-select [(ngModel)]="selectedValue" name="food">
-              @for (food of foods; track food) {
-              <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="col-sm">
-          <mat-form-field class="col">
-            <mat-label>Estado Civil</mat-label>
-            <mat-select [(ngModel)]="selectedValue" name="food">
-              @for (food of foods; track food) {
-              <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="col-sm">
-          <mat-form-field class="col">
-            <input matInput placeholder="Documento de identificação" />
-          </mat-form-field>
-        </div>
-
-        <div class="col-sm">
-          <mat-form-field class="col">
-            <input matInput placeholder="Telefone" />
-          </mat-form-field>
-        </div>
+    <div class="row">
+      <div class="col-sm">
+        <mat-form-field class="col">
+          <mat-label>Sexo</mat-label>
+          <mat-select [(ngModel)]="forms.sex" name="sex">
+            @for (item of sex; track item) {
+            <mat-option [value]="item.value">{{ item.viewValue }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
       </div>
+
+      <div class="col-sm">
+        <mat-form-field class="col">
+          <mat-label>Estado Civil</mat-label>
+          <mat-select [(ngModel)]="forms.maritalStatus" name="maritalStatus">
+            @for (item of maritalStatus; track item) {
+            <mat-option [value]="item.value">{{ item.viewValue }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm">
+        <mat-form-field class="col">
+          <input
+            matInput
+            placeholder="Documento de identificação"
+            name="identification"
+            [(ngModel)]="forms.identification"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm">
+        <mat-form-field class="col">
+          <input
+            matInput
+            placeholder="Telefone"
+            name="cellphone"
+            mask="(00)00000-0000"
+            [(ngModel)]="forms.cellphone"
+          />
+        </mat-form-field>
+      </div>
+    </div>
 
     <div class="row">
-     <div class="col-sm">
+      <div class="col-sm">
         <mat-form-field>
-          <input matInput placeholder="Data de Nascimento" />
+          <input
+            matInput
+            name="birthDate"
+            placeholder="Data de Nascimento"
+            mask="d0/M0/0000"
+            [(ngModel)]="forms.birthDate"
+          />
         </mat-form-field>
       </div>
-     <div class="col-sm">
+      <div class="col-sm">
         <mat-form-field>
-          <input matInput maxlength="11" placeholder="CPF*" />
+          <input
+            matInput
+            maxlength="14"
+            placeholder="CPF*"
+            name="cpf"
+            mask="000.000.000-00"
+            [disabled]="forms.indCpf"
+            [(ngModel)]="forms.cpf"
+          />
         </mat-form-field>
       </div>
-     <div class="col-sm">
-        <mat-checkbox class="example-margin"
-          >Assina digital/eletronicamente</mat-checkbox
+      <div class="col-sm">
+        <mat-checkbox class="example-margin" [(ngModel)]="forms.indCpf" name="indCpf" (click)="hasCpf()"
+          >CPF Não se Aplica</mat-checkbox
         >
       </div>
     </div>
+    <div>
+      <div class="row">
+        <div class="col-sm">
+          <mat-checkbox class="example-margin" [(ngModel)]="forms.signDigital" name="signDigital"
+            >Assina digital/eletronicamente</mat-checkbox
+          >
+        </div>
+      </div>
+    </div>
     <div class="div-btn-add">
-      <button mat-flat-button color="primary" class="btn-add">Adicionar</button>
+      <button
+        mat-flat-button
+        color="primary"
+        class="btn-add"
+        [disabled]="buttonIsValid()"
+        (click)="submitForm()"
+      >
+        Adicionar
+      </button>
     </div>
   </form>
 </div>

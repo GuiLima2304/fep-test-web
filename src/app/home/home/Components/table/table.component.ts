@@ -39,24 +39,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 20, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
 
-const ELEMENT_TESTE: ResponseClientGetAll[] = [
-  {
-      "id": 1,
-      "externCode": "112223335546",
-      "name": "Sergio da Costa",
-      "cpf": "45042906620",
-      "cellphone": "11998245613",
-      "signDigital": true
-  },
-  {
-      "id": 3,
-      "externCode": "98766484",
-      "name": "Camilla Ferreira",
-      "cpf": "62059847830",
-      "cellphone": "11993658475",
-      "signDigital": true
-  }
-]
 
 @Component({
   selector: 'app-table',
@@ -77,7 +59,6 @@ export class TableComponent implements AfterViewInit {
 
   constructor(private homeService: HomeService) {
     this.homeService.getAllClients().subscribe((resp: ResponseClientGetAll[])=>{
-      // this.dataClients.push(resp);
       this.dataSource = new MatTableDataSource<ResponseClientGetAll>(resp)
     })
   }
@@ -90,7 +71,7 @@ export class TableComponent implements AfterViewInit {
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.dataSource?.data.length;
     return numSelected === numRows;
   }
 
