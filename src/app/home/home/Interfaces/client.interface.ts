@@ -20,3 +20,7 @@ export interface RequestClientCreate {
   identification: string;
   signDigital: boolean;
 }
+
+export interface RequestDeleteClient {
+  id: number;
+}

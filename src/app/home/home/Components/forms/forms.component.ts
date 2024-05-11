@@ -6,10 +6,11 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
-import { MaritalStatus, Sexo } from '../../Interfaces/forms.interface';
+import { GenericResponse, MaritalStatus, Sexo } from '../../Interfaces/forms.interface';
 import { RequestClientCreate } from '../../Interfaces/client.interface';
 import { HomeService } from '../../Services/home.service';
 import { NgxMaskDirective } from 'ngx-mask';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-forms',
@@ -68,7 +69,8 @@ export class FormsComponent {
   public buttonIsValid() {
     if (
       this.forms.name.length > 0 &&
-      (this.forms.cpf.length > 0 || this.forms.indCpf)
+      (this.forms.cpf.length > 0 || this.forms.indCpf) &&
+      this.forms.birthDate.length > 0
     ) {
       return false;
     }

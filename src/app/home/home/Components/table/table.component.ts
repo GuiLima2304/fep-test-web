@@ -2,42 +2,11 @@ import { AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild } 
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonModule} from '@angular/material/button';
 import { HomeService } from '../../Services/home.service';
-import { HttpClient } from '@angular/common/http';
-import { ResponseClientGetAll } from '../../Interfaces/client.interface';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 12, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 13, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 14, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 15, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 16, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 17, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 18, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 19, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 20, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+import { RequestDeleteClient, ResponseClientGetAll } from '../../Interfaces/client.interface';
+import { GenericResponse } from '../../Interfaces/forms.interface';
 
 
 @Component({
@@ -49,10 +18,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class TableComponent implements AfterViewInit, OnChanges {
 
-  dataClients: ResponseClientGetAll[] = [];
   displayedColumns: string[] = ['select', 'id', 'name', 'cpf', 'signDigital'];
   selection = new SelectionModel<ResponseClientGetAll>(true, []);
   dataSource: any;
+  listId: RequestDeleteClient[] = [];
   //dataSource = new MatTableDataSource<ResponseClientGetAll>(ELEMENT_TESTE);
 
   // @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -93,12 +62,24 @@ export class TableComponent implements AfterViewInit, OnChanges {
     this.selection.select(...this.dataSource.data);
   }
 
+  getIds(element: any) {
+    this.listId.push(element);
+  }
+
 
   checkboxLabel(row?: ResponseClientGetAll): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+  }
+
+  public deleteClients() {
+    this.homeService.deleteClients(this.listId).subscribe((resp: any) => {
+      if(resp.code == 200) {
+        this.homeService.setData('');
+      }
+    })
   }
 
 }
