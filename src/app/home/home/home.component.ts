@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { NavbarComponent } from './Components/navbar/navbar.component';
 import { FormsComponent } from './Components/forms/forms.component';

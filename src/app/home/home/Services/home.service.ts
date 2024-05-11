@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { urls } from '../../../../assets/url.config';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { RequestClientCreate, ResponseClientGetAll } from '../Interfaces/client.interface';
 import moment_ from 'moment';
 const moment = moment_;
@@ -11,7 +11,14 @@ const moment = moment_;
 })
 export class HomeService {
 
+  private data = new BehaviorSubject("");
+  getMessage = this.data.asObservable();
+
   constructor(private http: HttpClient) { }
+
+  setData(data: any) {
+    this.data.next(data);
+  }
 
   getAllClients() {
     return this.http.get<ResponseClientGetAll[]>(urls.getAllClient).pipe(
@@ -28,7 +35,7 @@ export class HomeService {
 
     return this.http.post<Observable<any>>(urls.insertNewClient, request).pipe(
       map((resp) => {
-        console.log(resp)
+        return resp;
       }),
       catchError((error: Error) => throwError(error))
     );

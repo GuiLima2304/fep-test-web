@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -47,7 +47,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
-export class TableComponent implements AfterViewInit {
+export class TableComponent implements AfterViewInit, OnChanges {
 
   dataClients: ResponseClientGetAll[] = [];
   displayedColumns: string[] = ['select', 'id', 'name', 'cpf', 'signDigital'];
@@ -58,11 +58,21 @@ export class TableComponent implements AfterViewInit {
   // @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private homeService: HomeService) {
+    this.homeService.getMessage.subscribe(() => {
+      this.getListClient();
+    })
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['recall'].currentValue !== changes['recall'].previousValue) {
+      this.getListClient();
+    }
+  }
+
+  private getListClient() {
     this.homeService.getAllClients().subscribe((resp: ResponseClientGetAll[])=>{
       this.dataSource = new MatTableDataSource<ResponseClientGetAll>(resp)
     })
   }
-
 
   ngAfterViewInit() {
     // this.dataSource.paginator = this.paginator;

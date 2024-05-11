@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
@@ -22,7 +22,8 @@ import { NgxMaskDirective } from 'ngx-mask';
     MatSelectModule,
     MatCheckboxModule,
     MatButtonModule,
-    NgxMaskDirective
+    NgxMaskDirective,
+    MatButtonModule
   ],
   templateUrl: './forms.component.html',
   styleUrl: './forms.component.scss',
@@ -53,26 +54,49 @@ export class FormsComponent {
     birthDate: '',
     cellphone: '',
     identification: '',
-    signDigital: false
+    signDigital: false,
   };
 
   constructor(private homeService: HomeService) {}
 
   public hasCpf() {
-    if(this.forms.cpf.length > 0) {
+    if (this.forms.cpf.length > 0) {
       this.forms.cpf = '';
-    };
+    }
   }
 
   public buttonIsValid() {
-    if(this.forms.name.length > 0 && (this.forms.cpf.length > 0 || this.forms.indCpf)) {
+    if (
+      this.forms.name.length > 0 &&
+      (this.forms.cpf.length > 0 || this.forms.indCpf)
+    ) {
       return false;
     }
     return true;
   }
 
   public submitForm() {
-    console.log(this.forms);
-    this.homeService.insertNewClient(this.forms).subscribe((resp) => { console.log(resp) })
+    this.homeService.insertNewClient(this.forms).subscribe((resp: any) => {
+      if (resp.code) {
+        this.cleanFields();
+        this.homeService.setData('');
+      }
+    });
+  }
+
+  private cleanFields() {
+    this.forms = {
+      externCode: '',
+      name: '',
+      email: '',
+      cpf: '',
+      indCpf: false,
+      sex: 0,
+      maritalStatus: 0,
+      birthDate: '',
+      cellphone: '',
+      identification: '',
+      signDigital: false,
+    };
   }
 }
